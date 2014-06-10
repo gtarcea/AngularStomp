@@ -1,5 +1,5 @@
 /*
- * Copyright: 2012, V. Glenn Tarcea
+ * Copyright: 2014, V. Glenn Tarcea
  * MIT License Applies
  */
 
@@ -7,8 +7,16 @@ angular.module('AngularStomp', []).
     factory('ngstomp', function($rootScope) {
         var stompClient = {};
 
-        function NGStomp(url) {
-            this.stompClient = Stomp.client(url);
+        function NGStomp(url, classToUse, logFunction) {
+            if (!classToUse)
+                this.stompClient = Stomp.client(url);
+            else {
+                this.stompClient = Stomp.over(new classToUse(url));
+            }
+            if (logFunction)
+                this.stompClient.debug = logFunction;
+            else
+                this.stompClient.debug = function(str) {};
         }
 
         NGStomp.prototype.subscribe = function(queue, callback) {
@@ -47,7 +55,7 @@ angular.module('AngularStomp', []).
             })
         }
 
-        return function(url) {
-            return new NGStomp(url);
+        return function(url, WebSocketclazz, logFunction) {
+            return new NGStomp(url, WebSocketclazz, logFunction);
         }
     });
