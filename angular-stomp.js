@@ -4,7 +4,7 @@
  */
 
 angular.module('AngularStomp', []).
-    factory('ngstomp', function($rootScope) {
+    factory('ngstomp', ['$rootScope', function($rootScope) {
         var stompClient = {};
 
         function NGStomp(url) {
@@ -50,4 +50,4 @@ angular.module('AngularStomp', []).
         return function(url) {
             return new NGStomp(url);
         }
-    });
+    }]);
