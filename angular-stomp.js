@@ -28,12 +28,12 @@ angular.module('AngularStomp', []).
             this.stompClient.connect(user, password,
                 function(frame) {
                     $rootScope.$apply(function() {
-                        on_connect.apply(stompClient, frame);
+                        on_connect.call(stompClient, frame);
                     })
                 },
                 function(frame) {
                     $rootScope.$apply(function() {
-                        on_error.apply(stompClient, frame);
+                        on_error.call(stompClient, frame);
                     })
                 }, vhost);
         }
@@ -42,7 +42,7 @@ angular.module('AngularStomp', []).
             this.stompClient.disconnect(function() {
                 var args = arguments;
                 $rootScope.$apply(function() {
-                    callback.apply(args);
+                    callback.apply(stompClient, args);
                 })
             })
         }
