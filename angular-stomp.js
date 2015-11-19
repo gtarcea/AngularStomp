@@ -12,7 +12,7 @@ angular.module('AngularStomp', []).
         }
 
         NGStomp.prototype.subscribe = function(queue, callback) {
-            this.stompClient.subscribe(queue, function() {
+            return this.stompClient.subscribe(queue, function() {
                 var args = arguments;
                 $rootScope.$apply(function() {
                     callback(args[0]);
@@ -21,11 +21,11 @@ angular.module('AngularStomp', []).
         }
 
         NGStomp.prototype.send = function(queue, headers, data) {
-            this.stompClient.send(queue, headers, data);
+            return this.stompClient.send(queue, headers, data);
         }
 
         NGStomp.prototype.connect = function(user, password, on_connect, on_error, vhost) {
-            this.stompClient.connect(user, password,
+            return this.stompClient.connect(user, password,
                 function(frame) {
                     $rootScope.$apply(function() {
                         on_connect.apply(stompClient, frame);
@@ -39,7 +39,7 @@ angular.module('AngularStomp', []).
         }
 
         NGStomp.prototype.disconnect = function(callback) {
-            this.stompClient.disconnect(function() {
+            return this.stompClient.disconnect(function() {
                 var args = arguments;
                 $rootScope.$apply(function() {
                     callback.apply(args);
